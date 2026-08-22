@@ -11,6 +11,10 @@ public class Transaction {
         this.description = desc;
     }
 
+    public double getAmount() {
+        return this.amount;
+    }
+
     @Override
     public String toString() {
         return String.format("Date: %s%nAmount: %.2f%nCategory: %s%nDescription: %s%n", this.date, this.amount, this.category, this.description);
