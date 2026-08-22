@@ -13,6 +13,7 @@ public class UI {
         System.out.println("1. View Accounts (" + numAccounts + ")");
         System.out.println("2. Create Account");
         System.out.println("3. Delete Account");
+        System.out.println("4. Exit Program");
 
         int opt = sc.nextInt();
         sc.nextLine();
@@ -24,11 +25,22 @@ public class UI {
                 createAccount();
                 break;
             case 3:
+                deleteAccount();
                 break;
+            case 4:
+                System.out.println("Goodbye!");
+                System.exit(0);
             default:
                 System.out.println("Invalid input, please enter a number shown!");
                 mainMenu();
         }
+    }
+
+    public void listAccounts() {
+        for (int i = 1; i <= accounts.size(); i++) {
+            System.out.printf("%n%d. %s", i, accounts.get(i - 1));
+        }
+        System.out.printf("%n%d. Return to main menu%n", accounts.size() + 1);
     }
 
     public void viewAccounts() {
@@ -41,11 +53,8 @@ public class UI {
             mainMenu();
         } else {
             System.out.println(" Select an account:");
-            for (int i = 1; i <= accounts.size(); i++) {
-                System.out.printf("%n%d. %s", i, accounts.get(i - 1));
-            }
+            listAccounts();
         }
-        System.out.printf("%n%d. Return to main menu%n", accounts.size() + 1);
         int opt = sc.nextInt();
         sc.nextLine();
         if (opt == accounts.size() + 1) {
@@ -119,6 +128,19 @@ public class UI {
     }
 
     public void deleteAccount() {
+        System.out.println("Account Deletion");
+        System.out.println("----------------");
+        System.out.println("Choose an account to delete:");
 
+        listAccounts();
+        int acct = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("\n\"" + accounts.get(acct - 1) + "\" Account deleted successfully!");
+        accounts.remove(acct - 1);
+        numAccounts--;
+        System.out.println("1. Return to main menu");
+        sc.nextLine();
+        mainMenu();
     }
 }
