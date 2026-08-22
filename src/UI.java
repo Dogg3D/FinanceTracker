@@ -13,7 +13,8 @@ public class UI {
         System.out.println("1. View Accounts (" + numAccounts + ")");
         System.out.println("2. Create Account");
         System.out.println("3. Delete Account");
-        System.out.println("4. Exit Program");
+        System.out.println("4. Add Transaction");
+        System.out.println("5. Exit Program");
 
         int opt = sc.nextInt();
         sc.nextLine();
@@ -28,6 +29,9 @@ public class UI {
                 deleteAccount();
                 break;
             case 4:
+                makeTransaction();
+                break;
+            case 5:
                 System.out.println("Goodbye!");
                 System.exit(0);
             default:
@@ -133,14 +137,83 @@ public class UI {
         System.out.println("Choose an account to delete:");
 
         listAccounts();
-        int acct = sc.nextInt();
+        int opt = sc.nextInt();
+        if (opt == accounts.size() + 1) {
+            sc.nextLine();
+            mainMenu();
+        }
         sc.nextLine();
 
-        System.out.println("\n\"" + accounts.get(acct - 1) + "\" Account deleted successfully!");
-        accounts.remove(acct - 1);
+
+        System.out.println("\n\"" + accounts.get(opt - 1) + "\" Account deleted successfully!");
+        accounts.remove(opt - 1);
         numAccounts--;
         System.out.println("1. Return to main menu");
         sc.nextLine();
         mainMenu();
+    }
+
+    public void makeTransaction() {
+        System.out.println("Create Transaction");
+        System.out.println("------------------");
+        System.out.println("Select an account:");
+        listAccounts();
+        int opt = sc.nextInt();
+        sc.nextLine();
+
+        if (opt == accounts.size() + 1) {
+            mainMenu();
+        } else if (opt > accounts.size() + 1) {
+            System.out.println("Please enter a valid option!");
+            makeTransaction();
+        } else {
+            System.out.println("\nFirst, please enter a date (mm/dd/yyyy): ");
+            System.out.print("Enter month (mm): ");
+            int month = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Enter day (dd): ");
+            int day = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Enter year (yyyy): ");
+            int year = sc.nextInt();
+            sc.nextLine();
+            Date date = new Date(month, day, year);
+            System.out.println("Entered date: " + date);
+
+            double amount;
+            System.out.println("Next, is this transaction income or an expense?");
+            System.out.println("1. Income");
+            System.out.println("2. Expense");
+            boolean isIncome = false;
+            if (sc.nextInt() == 1) {
+                isIncome = true;
+            }
+            sc.nextLine();
+            System.out.println("Enter an amount for this transaction: ");
+            amount = sc.nextDouble();
+            sc.nextLine();
+            if (!isIncome) {
+                amount *= -1;
+            }
+
+            System.out.println("\nGive a short description of this transaction (EX: Business, Website, etc.): ");
+            String desc = sc.nextLine();
+            System.out.println("\nFinally, enter a category (EX: Groceries, Gas, Fun, etc.: ");
+            String cat = sc.nextLine();
+
+            Transaction trans = new Transaction(amount, date, cat, desc);
+            accounts.get(opt - 1).addTransaction(trans);
+
+            System.out.println("\nTransaction added successfully!");
+            System.out.println("1. Add another transaction");
+            System.out.println("2. Return to main menu");
+            if (sc.nextInt() == 1) {
+                sc.nextLine();
+                makeTransaction();
+            } else {
+                sc.nextLine();
+                mainMenu();
+            }
+        }
     }
 }
