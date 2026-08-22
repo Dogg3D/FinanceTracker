@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -16,7 +17,14 @@ public class UI {
         System.out.println("4. Add Transaction");
         System.out.println("5. Exit Program");
 
-        int opt = sc.nextInt();
+        int opt = 0;
+        try {
+            opt = sc.nextInt();
+        } catch (InputMismatchException e) {
+            sc.nextLine();
+            System.out.println("Please enter a valid number!");
+            mainMenu();
+        }
         sc.nextLine();
         switch (opt) {
             case 1:
@@ -35,30 +43,35 @@ public class UI {
                 System.out.println("Goodbye!");
                 System.exit(0);
             default:
-                System.out.println("Invalid input, please enter a number shown!");
+                System.out.println("Please enter a valid number!");
                 mainMenu();
         }
     }
 
-    public void listAccounts() {
+    private void hasAccounts() {
+        if (numAccounts == 0) {
+            System.out.println("No accounts found! Please create an account.");
+            System.out.println("1. Return to main menu");
+            sc.nextLine();
+            mainMenu();
+        }
+    }
+
+    private void listAccounts() {
         for (int i = 1; i <= accounts.size(); i++) {
             System.out.printf("%n%d. %s", i, accounts.get(i - 1));
         }
         System.out.printf("%n%d. Return to main menu%n", accounts.size() + 1);
     }
 
-    public void viewAccounts() {
+    private void viewAccounts() {
         System.out.println("\n   Account Viewer   ");
         System.out.println("--------------------");
-        if (numAccounts == 0) {
-            System.out.println("No accounts found! Please create an account.");
-            System.out.println("1. Return to main menu");
-            sc.nextLine();
-            mainMenu();
-        } else {
-            System.out.println(" Select an account:");
-            listAccounts();
-        }
+
+        hasAccounts();
+
+        System.out.println(" Select an account:");
+        listAccounts();
         int opt = sc.nextInt();
         sc.nextLine();
         if (opt == accounts.size() + 1) {
@@ -68,7 +81,7 @@ public class UI {
         }
     }
 
-    public void accountDetails(Account account) {
+    private void accountDetails(Account account) {
         System.out.printf("%n%s Account Details%n", account);
         System.out.println("------------------------");
         account.getBalance();
@@ -113,7 +126,7 @@ public class UI {
         }
     }
 
-    public void createAccount() {
+    private void createAccount() {
         System.out.println("\n  Account Manager  ");
         System.out.println("-------------------");
         System.out.println("Name your new account:");
@@ -131,9 +144,12 @@ public class UI {
         mainMenu();
     }
 
-    public void deleteAccount() {
+    private void deleteAccount() {
         System.out.println("Account Deletion");
         System.out.println("----------------");
+
+        hasAccounts();
+
         System.out.println("Choose an account to delete:");
 
         listAccounts();
@@ -153,9 +169,12 @@ public class UI {
         mainMenu();
     }
 
-    public void makeTransaction() {
+    private void makeTransaction() {
         System.out.println("Create Transaction");
         System.out.println("------------------");
+
+        hasAccounts();
+
         System.out.println("Select an account:");
         listAccounts();
         int opt = sc.nextInt();
