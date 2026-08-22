@@ -6,7 +6,7 @@ public class Account {
     private double totalExpenses = 0;
     private String name;
     private int numTransactions = 0;
-    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
     public Account(String name) {
         this.name = name;
@@ -50,6 +50,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return String.format("%nAccount Name: %s%nCurrent Balance: %.2f", this.name, this.balance);
+        return String.format("Account Name: %s%nCurrent Balance: %.2f", this.name, this.balance);
     }
 }
