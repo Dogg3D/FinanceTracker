@@ -36,6 +36,18 @@ public class Account {
         }
     }
 
+    public void getIncome() {
+        System.out.printf("%nTotal Income: %.2f", this.totalIncome);
+    }
+
+    public void getExpenses() {
+        System.out.printf("%nTotal Expenses: %.2f", this.totalExpenses);
+    }
+
+    public void getTotalTransactions() {
+        System.out.printf("%nTotal Transactions: %d", this.numTransactions);
+    }
+
     @Override
     public String toString() {
         return String.format("%nAccount Name: %s%nCurrent Balance: %.2f", this.name, this.balance);
