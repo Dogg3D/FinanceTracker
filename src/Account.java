@@ -12,7 +12,7 @@ public class Account {
         this.name = name;
     }
 
-    public void checkBalance() {
+    public void getBalance() {
         System.out.printf("%nCurrent balance: %.2f%n", this.balance);
     }
 
@@ -50,6 +50,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return String.format("Account Name: %s%nCurrent Balance: %.2f", this.name, this.balance);
+        return String.format("%s", this.name);
     }
 }
